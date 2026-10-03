@@ -1,0 +1,11 @@
+.env
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+.vscode/
+chroma_grap/
+.streamlit/secrets.toml
+data/raw/*
+!data/raw/aqi_hourly_v2.csv
