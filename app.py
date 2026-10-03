@@ -208,14 +208,23 @@ with tab2:
 
     typed = st.chat_input("Ask about GRAP restrictions...")
     question = typed or chip_q
+
+    # demo ke liye session limit
+    if "asked" not in st.session_state:
+        st.session_state.asked = 0
+    if question and st.session_state.asked >= 10:
+        st.warning("Demo limit reached for this session (10 questions). Refresh the page to start again.")
+        question = None
+
     if question:
+        question = question[:300]
+        st.session_state.asked += 1
         st.session_state.messages.append({"role": "user", "content": question})
         with st.spinner("Reading the GRAP document..."):
             reply = answer(aqi_pick, question)
         st.session_state.messages.append({
             "role": "assistant", "content": reply,
             "meta": f"Answered for {day_label[day]}, {which.replace('_', ' ')} AQI {aqi_pick}"})
-
     for m in st.session_state.messages:
         with st.chat_message(m["role"]):
             st.markdown(m["content"])
